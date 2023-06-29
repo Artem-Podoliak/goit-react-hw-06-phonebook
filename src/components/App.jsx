@@ -14,7 +14,7 @@ import css from './App.module.css';
 const App = () => {
   const contacts = useSelector(getContactsItems);
   const filterValue = useSelector(getFilterValue);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const getVisibleContacts = useMemo(() => {
     const normalizedFilter = filterValue.toLowerCase().trim();
