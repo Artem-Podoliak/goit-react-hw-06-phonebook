@@ -15,7 +15,7 @@ const App = () => {
   const contacts = useSelector(getContactsItems);
   const filterValue = useSelector(getFilterValue);
   // const dispatch = useDispatch();
-
+  const qwery = 5;
   const getVisibleContacts = useMemo(() => {
     const normalizedFilter = filterValue.toLowerCase().trim();
     return contacts
