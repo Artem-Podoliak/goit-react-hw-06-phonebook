@@ -1,11 +1,10 @@
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import {
   getContactsItems,
   removeContact,
   addContact,
-} from 'redux/contacts/slice';
-import { getFilterValue } from 'redux/filter/slice';
+} from './../redux/contacts/slice.jsx';
+import { getFilterValue } from './../redux/filter/slice';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './ContactList/ContactList';
 import Filter from './Filter/Filter';
@@ -14,9 +13,9 @@ import css from './App.module.css';
 const App = () => {
   const contacts = useSelector(getContactsItems);
   const filterValue = useSelector(getFilterValue);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const getVisibleContacts = useMemo(() => {
+  const getVisibleContacts = () => {
     const normalizedFilter = filterValue.toLowerCase().trim();
     return contacts
       .filter(
@@ -25,9 +24,15 @@ const App = () => {
           contact.number.includes(normalizedFilter)
       )
       .sort((a, b) => a.name.localeCompare(b.name));
-  }, [contacts, filterValue]);
+  };
 
   const visibleContacts = getVisibleContacts();
+
+  const handleFilterChange = event => {
+    const newFilterValue = event.target.value;
+
+    dispatch(newFilterValue);
+  };
 
   return (
     <div className={css.wrapper}>
@@ -37,7 +42,7 @@ const App = () => {
       <Filter
         label="Find contacts by name"
         value={filterValue}
-        onChange={filterValue}
+        onChange={handleFilterChange}
       />
       <ContactList contacts={visibleContacts} onDeleteContact={removeContact} />
     </div>
