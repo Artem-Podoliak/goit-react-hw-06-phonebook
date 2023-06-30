@@ -1,32 +1,31 @@
-import React from 'react';
-import { nanoid } from 'nanoid';
-import PropTypes from 'prop-types';
-import css from './Filter.module.css'
+import { useSelector, useDispatch } from 'react-redux';
+import { nanoid } from '@reduxjs/toolkit';
+import { getFilterValue, changeFilter } from 'redux/filter/slice';
+import css from './Filter.module.css';
 
-function Filter({ label, value, onChange }) {
-  const filterId = nanoid();
+export default function Filter() {
+  const filterValue = useSelector(getFilterValue);
+  const dispatch = useDispatch();
+
+  const filterInputId = nanoid();
+
+  const onFilterChange = evt => {
+    dispatch(changeFilter(evt.currentTarget.value));
+  };
 
   return (
-    <div className={css.wraper}>
-      <label className={css.label} htmlFor={filterId}>
-        {label}
+    <div className={css.filterWrapper}>
+      <label className={css.filterInputLabel} htmlFor={filterInputId}>
+        Find contacts by name
         <input
-          className={css.input}
+          className={css.filterInput}
           type="text"
           placeholder="Search field"
-          id={filterId}
-          value={value}
-          onChange={onChange}
-        ></input>
+          id={filterInputId}
+          value={filterValue}
+          onChange={onFilterChange}
+        />
       </label>
     </div>
   );
 }
-
-export default Filter;
-
-Filter.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};
