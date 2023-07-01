@@ -31,24 +31,26 @@ export default function ContactForm() {
   const onContactFormSubmit = evt => {
     evt.preventDefault();
 
-    if (
-      contacts.find(
-        contact =>
-          contact.name.toLowerCase() === name.toLowerCase() &&
-          contact.number === number
-      )
-    ) {
+    const existingContact = contacts.find(
+      contact =>
+        contact.name.toLowerCase() === name.toLowerCase() &&
+        contact.number === number
+    );
+
+    if (existingContact) {
       showInfoMessage('This contact is already in your phonebook');
       return;
     }
 
-    if (contacts.find(contact => contact.number === number)) {
+    const existingNumber = contacts.find(contact => contact.number === number);
+
+    if (existingNumber) {
       showInfoMessage('This phone number is already in your phonebook');
       return;
     }
 
     dispatch(addContact({ name, number }));
-    showSuccessMessage('New contact has been added in your phonebook');
+    showSuccessMessage('New contact has been added to your phonebook');
     formReset();
   };
 
